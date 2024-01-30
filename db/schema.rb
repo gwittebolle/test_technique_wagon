@@ -10,9 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_30_113516) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_30_134604) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "games", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "actual_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_games_on_user_id"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.text "ten_letters_list"
+    t.string "word"
+    t.boolean "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_matches_on_game_id"
+  end
+
+  create_table "solutions", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.string "word"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_solutions_on_match_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,8 +48,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_30_113516) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "best_score", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "games", "users"
+  add_foreign_key "matches", "games"
+  add_foreign_key "solutions", "matches"
 end

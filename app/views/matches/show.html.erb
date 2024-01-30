@@ -1,0 +1,29 @@
+<!-- Assurez-vous d'inclure le CSS de Bootstrap dans votre layout pour que ce code fonctionne -->
+
+<div class="container my-5">
+  <div class="row justify-content-center mb-3">
+    <% @match.ten_letters_list.chars.each_slice(5) do |slice| %>
+      <div class="col-12">
+        <div class="d-flex justify-content-between">
+          <% slice.each do |letter| %>
+            <div class="p-2">
+              <div class="letter-tile">
+                <%= letter.upcase %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= simple_form_for [:game, @match], url: game_match_path(@match.game, @match), method: :patch do |f| %>
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <%= f.input :word, as: :string, input_html: { class: 'form-control text-left mb-3', placeholder: 'Ton mot le plus long' } %>
+      </div>
+    </div>
+    <%= f.button :submit, class: 'btn btn-primary', value: 'Soumettre le mot' %>
+  <% end %>
+
+</div>

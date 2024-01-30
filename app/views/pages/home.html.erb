@@ -1,2 +1,7 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container m-3 p-3">
+  <div class="col-12">
+    <%= form_with url: games_path, method: :post do |form| %>
+      <%= form.submit "Nouveau jeu", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

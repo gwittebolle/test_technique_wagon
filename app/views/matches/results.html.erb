@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="bg-white m-3 p-3">
+    <div>
+      <div>
+        <p>Nombre de games : <%= current_user.games.count %></p>
+        <p>Meilleur score : <%= current_user.best_score %></p>
+      </div>
+      <div>
+        <p>Nombre de parties jouées : <%= current_user.games.last.matches.where.not(word: '').count %>/5</p>
+        <p>Score : <%= current_user.games.last.actual_score %></p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mt-5">
+    <div class="row justify-content-center mb-3">
+      <% @match.ten_letters_list.chars.each_slice(5) do |slice| %>
+        <div class="col-12">
+          <div class="d-flex justify-content-between">
+            <% slice.each do |letter| %>
+              <div class="p-2">
+                <div class="letter-tile">
+                  <%= letter.upcase %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="container bg-white my-5">
+    <strong>Mon mot</strong>
+    <h2 class="text-center text-primary"><%= @match.word %></h2>
+  </div>
+
+  <div class="container bg-white my-5">
+    <h3 class="text-primary text-center">Les 10 meilleures réponses</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <ul class="list-unstyled text-center">
+          <% @top_words.each_with_index do |word, index| %>
+            <% if index < 5 %>
+              <li><strong><%= word %></strong></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <ul class="list-unstyled text-center">
+          <% @top_words.each_with_index do |word, index| %>
+            <% if index >= 5 %>
+              <li><strong><%= word %></strong></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container m-3 p-3">
+    <div class="col-12">
+      <%= link_to "Match suivant", next_match_game_path(current_user.games.last), class: "btn btn-primary" %>
+    </div>
+  </div>
+
+
+</div>
